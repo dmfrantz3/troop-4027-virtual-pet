@@ -7,7 +7,7 @@ import { VirtualPet } from '../_models/virtualPet';
   providedIn: 'root'
 })
 export class DataService {
-  myPet: VirtualPet = new VirtualPet("","#ff0000","","","");
+  myPet: VirtualPet = new VirtualPet("Spot","#ff0000","Happy","Cat","Girl");
   constructor() { }
     
 }

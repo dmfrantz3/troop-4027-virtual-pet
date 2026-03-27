@@ -2,16 +2,16 @@ export class VirtualPet {
   name:string;
   color:string;
   mood: string;
-  attribute2: string;
-  attribute3: string;
+  petType: string;
+  gender: string;
   satiety: number = 100;
-
-  constructor(name: string, color: string, mood: string, attribute2: string, attribute3: string) {
+  
+  constructor(name: string, color: string, mood: string, petType: string, gender: string) {
     this.name = name;
     this.color = color;
     this.mood = mood;
-    this.attribute2 = attribute2;
-    this.attribute3 = attribute3;
+    this.petType = petType;
+    this.gender = gender;
   }
 
   emptyBelly(){

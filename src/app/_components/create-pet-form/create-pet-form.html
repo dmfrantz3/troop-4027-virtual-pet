@@ -20,21 +20,39 @@
         <div class="col-12" class="form-container">
             <div class="mb-3">
                 <label for="formGroupExampleInput" class="form-label">Mood</label>
-                <input type="text" id="attribute1" class="form-control" [(ngModel)]="myPet.mood" placeholder="Mood">
+                <select id="mood" class="form-control" [(ngModel)]="myPet.mood">
+                    <option value="Happy">Happy</option>
+                    <option value="Sad">Sad</option>
+                    <option value="Angry">Angry</option>
+                    <option value="Bored">Bored</option>
+                </select>
             </div>
         </div>
         <div class="col-12" class="form-container">
             <div class="mb-3">
-                <label for="formGroupExampleInput" class="form-label">Attribute Two</label>
-                <input type="text" id="attribute2" class="form-control" [(ngModel)]="myPet.attribute2" placeholder="Attribute Two">
+                <label for="formGroupExampleInput" class="form-label">Pet Type</label>
+                <select id="petType" class="form-control" [(ngModel)]="myPet.petType">
+                    <option value="Cat">Cat</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Unicorn">Unicorn</option>
+                </select>
             </div>
         </div>
         <div class="col-12" class="form-container">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Gender</label>
+                <select id="gender" class="form-control" [(ngModel)]="myPet.gender">
+                    <option value="Boy">Boy</option>
+                    <option value="Girl">Girl</option>
+                </select>
+            </div>
+        </div>
+        <!-- <div class="col-12" class="form-container">
             <div class="mb-3">
                 <label for="formGroupExampleInput" class="form-label">Attribute Three</label>
                 <input type="text" id="attribute3" class="form-control" [(ngModel)]="myPet.attribute3" placeholder="Attribute Three">
             </div>
-        </div>
+        </div> -->
         <div class="col-12" class="form-container rt-align">
             <div class="mb-3">
                 <button class="btn btn-md btn-success" (click)="createPet()">Create Pet</button>

@@ -1,0 +1,6 @@
+.pet-container{
+  display: flex;
+  justify-content: center; /* Horizontal center */
+  align-items: center;     /* Vertical center */
+  padding-top: 1em;
+}

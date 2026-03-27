@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef} from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild} from '@angular/core';
 import { Satiety } from '../satiety/satiety';
 import { VirtualPetComponent } from '../virtual-pet/virtual-pet';
 import { ActionBar } from '../action-bar/action-bar';
@@ -18,6 +18,13 @@ export class MainGame {
   intervalId: any;
   gameOver: boolean = false;
   myPet?: VirtualPet;
+  private petComponent: VirtualPetComponent | undefined;
+  @ViewChild(VirtualPetComponent) set content(content: VirtualPetComponent) {
+   if(content) { 
+       this.petComponent = content;
+   }
+}
+
   constructor(private dataService: DataService, private router: Router, private cdr: ChangeDetectorRef){
     this.myPet = this.dataService.myPet;
   }
@@ -39,5 +46,17 @@ export class MainGame {
   endGame(){
     this.gameOver = true;
     this.cdr.detectChanges();
+  }
+
+  takePhoto(){
+    console.log("TAKING PHOTO...");
+    if (this.myPet && this.petComponent) {
+      const dataUrl = this.petComponent.getCanvasImage();
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = 'canvas-image.png';
+      link.click();
+    }
+      
   }
 }
