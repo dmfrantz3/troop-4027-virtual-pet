@@ -1,0 +1,21 @@
+<div class="container game-container">
+    <div class="row" *ngIf="myPet">
+        <div class="col-12" class="title-bar">
+            <div class="mb-3">
+                <h3>{{myPet.name}}</h3>
+            </div>
+        </div>
+        <div class="col-12" class="pad-top form-container" *ngIf="!gameOver">
+            <app-satiety [satiety]="myPet.getSatiety()"></app-satiety>
+            <app-virtual-pet [myPet]="myPet" [satiety]="myPet.getSatiety()"></app-virtual-pet>
+            <app-action-bar [myPet] ="myPet"></app-action-bar>
+        </div>
+        <div class="col-12" *ngIf="gameOver" class="ctr">
+            <br  /><br />
+            <h2>GAME OVER!!!</h2>
+            <br /><br />
+            <img src="/rip.png" />
+            <br /><br /><br /><br />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="container" class="game-container">
+    <div class="row" *ngIf="myPet">
+        <div class="col-12" class="title-bar">
+            <div class="mb-3">
+                <h3>Create Your Pet</h3>
+            </div>
+        </div>
+        <div class="col-12" class="pad-top form-container">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Pet's Name</label>
+                <input type="text" id="petname" class="form-control" [(ngModel)]="myPet.name" placeholder="What is your pet's name?">
+            </div>
+        </div>
+        <div class="col-12" class="form-container">
+            <div class="mb-3">
+                <label for="favcolor">Pet's Color:</label>
+                <input type="color" id="favcolor" class="form-control" [(ngModel)]="myPet.color" value="#ff0000">
+            </div>
+        </div>
+        <div class="col-12" class="form-container">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Mood</label>
+                <input type="text" id="attribute1" class="form-control" [(ngModel)]="myPet.mood" placeholder="Mood">
+            </div>
+        </div>
+        <div class="col-12" class="form-container">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Attribute Two</label>
+                <input type="text" id="attribute2" class="form-control" [(ngModel)]="myPet.attribute2" placeholder="Attribute Two">
+            </div>
+        </div>
+        <div class="col-12" class="form-container">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Attribute Three</label>
+                <input type="text" id="attribute3" class="form-control" [(ngModel)]="myPet.attribute3" placeholder="Attribute Three">
+            </div>
+        </div>
+        <div class="col-12" class="form-container rt-align">
+            <div class="mb-3">
+                <button class="btn btn-md btn-success" (click)="createPet()">Create Pet</button>
+            </div>
+        </div>
+        <div class="col-12" class="form-container">
+            <div class="mb-3">
+                <br /><br />
+            </div>
+        </div>
+    </div>
+</div>
+

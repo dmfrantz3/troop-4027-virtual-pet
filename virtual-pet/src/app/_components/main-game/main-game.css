@@ -1,0 +1,23 @@
+.game-container {
+    margin-top:1em; 
+    background-image: url('/form-bg.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    max-width: 600px;
+    min-width: 540px;
+    margin:auto;
+}
+.title-bar {
+    padding-top:1.5em; 
+    width:65%; 
+    margin:auto; 
+    text-align:center;
+    font-size: 2em;
+    font-weight: 500;
+}
+.pad-top {
+    padding-top: 4em;
+}
+.ctr {text-align: center;}
+.form-container { width:65%; margin:auto; }
+.rt-align {text-align: right;}
