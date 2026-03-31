@@ -15,11 +15,12 @@ export class VirtualPet {
   }
 
   emptyBelly(){
-    this.satiety = this.satiety - 20;
+    this.satiety = this.satiety - 5;
   }
-  feedPet(){
-    console.log("NOM... NOM... NOM")
-    this.satiety +=20;
+  feedPet(): number{
+    if (this.satiety+20 > 100)
+      return 100;
+    return this.satiety+20;
   }
   getSatiety(): number{
     if (this.satiety)

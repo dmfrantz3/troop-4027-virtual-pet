@@ -4,3 +4,30 @@
 .btn-icon{
     width: 40px; margin:0 !important; padding:0 !important;
 }
+.game-area{
+    position: relative;
+    width:100%;
+}
+.game-bar {
+    border-radius: 10px;
+    padding: 4px;
+    background-color: #000;
+    position: relative;
+}
+.draggable-item {
+    z-index:999;
+    left: 20px;
+    top: 26px;
+    width: 64px;
+    height: 64px;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    -webkit-user-drag: none;
+    pointer-events: auto;
+    position:absolute;
+}
+
+.draggable-item.dragging {
+  cursor: grabbing;
+}

@@ -47,9 +47,11 @@ export class MainGame {
     this.gameOver = true;
     this.cdr.detectChanges();
   }
-
+  feedPet(){
+    if (this.myPet)
+      this.myPet.satiety = this.myPet.feedPet();
+  }
   takePhoto(){
-    console.log("TAKING PHOTO...");
     if (this.myPet && this.petComponent) {
       const dataUrl = this.petComponent.getCanvasImage();
       const link = document.createElement('a');

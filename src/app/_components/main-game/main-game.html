@@ -8,7 +8,7 @@
         <div class="col-12" class="pad-top form-container" *ngIf="!gameOver">
             <app-satiety [satiety]="myPet.getSatiety()"></app-satiety>
             <app-virtual-pet [myPet]="myPet" [satiety]="myPet.getSatiety()" [mood]="myPet.mood" [petType]="myPet.petType"></app-virtual-pet>
-            <app-action-bar [myPet] ="myPet" (photoClick)="takePhoto()"></app-action-bar>
+            <app-action-bar [myPet] ="myPet" (photoClick)="takePhoto()" (satiety)="feedPet()"></app-action-bar>
         </div>
         <div class="col-12" *ngIf="gameOver" class="ctr">
             <br  /><br />

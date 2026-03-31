@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { VirtualPet } from '../../_models/virtualPet';
 import parseColor from 'parse-color';
 
@@ -17,22 +17,74 @@ export class VirtualPetComponent implements AfterViewInit {
   init: boolean = false;
   
   petColor?: string;
-
+  currentFrame: number = 0;
+  currentMouthFrame: number = 0;
+  isEating: Boolean = false;
+  isBlinking: Boolean = false;
+  lastSatiety: number = 100;
   private moodImages: HTMLImageElement[] = [];
   private accessoryImages: HTMLImageElement[] = [];
   private petImages: HTMLImageElement[] = [];
-  private imageSources = ['cat-base.png', 'dog-base.png', 'unicorn-base.png', 'happy.png', 'sad.png', 'angry.png', 'bored.png', 'collar-girl.png', 'collar-boy.png'];
+  private petEyes: HTMLImageElement[] = [];
+  private imageSources = ['cat-base.png', 'dog-base.png', 'unicorn-base.png', 'cat-mouth-closed.png', 'cat-mouth-open.png', 'unicorn-mouth-closed.png', 'unicorn-mouth-open.png', 'collar-girl.png', 'collar-boy.png', 'happy-eyes.png', 'eyes-half.png', 'eyes-closed.png'];
 
   ngAfterViewInit() {
+    setInterval(() => {
+    // random delay between blinks
+    if (!this.isBlinking && Math.random() < 0.3) {
+        this.blink();
+      }
+    }, 2000);
     this.init = true;
     this.preloadImages(this.imageSources).then(loadedImages => {
       this.petImages = loadedImages.slice(0,3);
       this.moodImages = loadedImages.slice(3,7);
-      this.accessoryImages = loadedImages.slice(7);
+      this.accessoryImages = loadedImages.slice(7,9);
+      this.petEyes = loadedImages.slice(9,12)
       this.drawPet(); // Start drawing once loaded
     });
   }
-
+  eat(){
+    if (this.isEating) return;
+    console.log("STARTED EATING");
+    this.isEating = true;
+    var frameCount = 4;
+    const eatInterval = setInterval(()=>{
+      this.currentMouthFrame = frameCount % 2;
+      console.log("MOUTH FRAME "+this.currentMouthFrame);
+      this.drawPet();
+      frameCount--;
+      if (frameCount <= 0){
+        clearInterval(eatInterval);
+        console.log("STOPPED EATING");
+        this.currentMouthFrame = 0;
+        this.isEating = false;
+        this.drawPet();
+      }
+    }, 100);
+  }
+  blink(){
+    if (this.isBlinking) return;
+    console.log("STARTED A BLINK");
+    this.isBlinking = true;
+    var frameIndex = 0;
+    const blinkInterval = setInterval(() => { 
+      this.currentFrame = frameIndex;
+      this.drawPet();
+      frameIndex++;
+      console.log("BLINKED..."+frameIndex);
+      if (frameIndex >= 3) {
+        clearInterval(blinkInterval);
+        setTimeout(() => {
+          this.currentFrame = 0;
+          this.drawPet();
+          console.log("STOPPED BLINKING");
+          this.isBlinking = false;
+        }, 100);
+      }
+    }, 100); // speed of blink
+  }
+  
   preloadImages(sources: string[]): Promise<HTMLImageElement[]> {
     const promises = sources.map(src => {
       return new Promise<HTMLImageElement>((resolve, reject) => {
@@ -45,9 +97,14 @@ export class VirtualPetComponent implements AfterViewInit {
     return Promise.all(promises);
   }
 
-  ngOnChanges(){
-    if (this.init)
-      this.drawPet();
+  ngOnChanges(changes: SimpleChanges){
+    if (this.init && changes['satiety']){
+      const change = changes['satiety'];
+      if (change.currentValue > change.previousValue)
+        this.eat();
+      //else
+        //this.drawPet();
+    }
   }
   public getCanvasImage(): string {
     return this.canvasRef.nativeElement.toDataURL('image/png');
@@ -80,18 +137,19 @@ export class VirtualPetComponent implements AfterViewInit {
     }
 
     ctx.putImageData(imageData, 0, 0);
+    var collarImg = this.accessoryImages[0];
+    if(this.myPet?.gender != "Girl")
+      collarImg = this.accessoryImages[1];
 
     //add collar
-    if(this.myPet?.gender == "Girl"){
-      if (this.petType == "Unicorn"){
-        ctx.drawImage(this.accessoryImages[0], 100, 210, 100, 50);
-      }
-      else
-        ctx.drawImage(this.accessoryImages[0], 100, 240, 100, 50);
+    if (this.petType == "Unicorn"){
+      ctx.drawImage(collarImg, 100, 210, 100, 50);
     }
-    else{
-      ctx.drawImage(this.accessoryImages[1], 100, 240, 100, 50);
+    else if (this.petType == "Dog"){
+      ctx.drawImage(collarImg, 100, 215, 100, 50);
     }
+    else
+      ctx.drawImage(collarImg, 100, 240, 100, 50);
 
     // //write the pet's name on the collar
     // // Set styles
@@ -127,29 +185,19 @@ export class VirtualPetComponent implements AfterViewInit {
   }
 
   drawMood(ctx: any){
-    var drawMood = this.mood;
-    if (this.myPet && this.myPet.getSatiety() < 50){
-      drawMood = "Sad";      
-    }
+
     const img = new Image();
-    switch(drawMood){
-      case "Happy":
-        ctx.drawImage(this.moodImages[0], 70, 110, 160, 70);
-        break;
-      case "Angry":
-        ctx.drawImage(this.moodImages[2], 70, 110, 160, 70);
-        break;
-      case "Sad":
-        ctx.drawImage(this.moodImages[1], 70, 110, 160, 70);
-        break;
-      case "Bored":
-        ctx.drawImage(this.moodImages[3], 70, 110, 160, 70);
+    //draw animated eyes
+    switch(this.myPet?.petType){
+      case 'Unicorn':
+        ctx.drawImage(this.petEyes[this.currentFrame], 90, 120, 120, 50);
+        ctx.drawImage(this.moodImages[this.currentMouthFrame+2], 120, 140, 60, 50);
         break;
       default:
-        ctx.drawImage(this.moodImages[0], 70, 110, 160, 70);
-      break;
+        ctx.drawImage(this.petEyes[this.currentFrame], 70, 110, 160, 70);
+        ctx.drawImage(this.moodImages[this.currentMouthFrame], 120, 140, 60, 80);
+        break;
     }
-    
   }
 
   drawPet() {
